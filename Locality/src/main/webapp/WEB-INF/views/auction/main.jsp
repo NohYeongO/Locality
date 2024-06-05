@@ -79,9 +79,7 @@
         margin-left: -130px; 
     }
 
-    #search > form > select{border-radius: 10px; width: 80px;}
-
-    #search > form > input{
+    #search > input{
         font-size: 16px;
         width: 325px;
         height: 50px;
@@ -89,7 +87,7 @@
         margin-left: 100px;
     }
     
-    #search > form > button{
+    #search > button{
         width: 50px;
         height: 50px;
         border: 0px;
@@ -99,7 +97,7 @@
         font-weight:bold;
     }
 
-    #search > form > button:hover{background-color: black; color: white;}
+    #search > button:hover{background-color: black; color: white;}
 	
 	.product > div > img{width : 100%; height : 100%;}
 	
@@ -172,8 +170,8 @@
         <div id="search">
             <!-- <form action="search.do" method="get"> -->
                 <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
-                <input type="hidden" name="field"/>
-                <button type="submit">검색</button>
+                <!-- <input type="hidden" name="field"/> -->
+                <button type="button">검색</button>
             <!-- </form> -->
         </div>
     </div>
@@ -198,26 +196,30 @@
 		      <div class="refresh_btn"><img src="./resources/images/auction/more.png"></img></div>
 		      
             <script>
-	            let page = 1,filter = 'all', resultStr = '', keyword = '';
+	            let page = 1, filter = 'all', resultStr = '', keyword = '';
 	            $(() => {
-	            	selectAuction(page);
+	            	// 기본적으로 리스트 뿌려주기
+	            	selectAuction(page, filter, keyword);
+	            	// 더보기 버튼 클릭 시
 	                $('.refresh_btn > img').click(() => {
-	                	selectAuction(++page, filter);
+	                	selectAuction(++page, filter, keyword);
 	                });
 	             });
 	            
 	            $(() => {
-	            	$('#saerch . button').click(() => {
+	            	// 검색 버튼 클릭 시
+	            	$('#search > button').click(() => {
 		            	page = 1;
 		            	resultStr = '';
-		            	keyword = '';
-		            	selectAuction(page, keyword);
-	            		console.log('검색 버튼 클릭');
+		            	keyword = $('input[name=keyword]').val();
+		            	selectAuction(page, filter, keyword);
+		            	console.log('검색 버튼 클릭, 값 :  ' + keyword);
 	            	})
 	            })
 	            
 	            // 필터
             	$(() => {
+            		// 필터 항목 클릭 시
             		$('#filter > button').click((e) => {
             			page = 1;
             			resultStr = '';
@@ -225,7 +227,7 @@
             			let title = $('#pd_title');
             			console.log(filter);
             			// AJAX filter 값 넣기
-            			selectAuction(page, filter);
+            			selectAuction(page, filter, keyword);
             			
             			// 검색할 때 field 값 넣기
             			$('input[name="field"]').val(filter);
@@ -249,8 +251,8 @@
 		            // 제품 리스트 AJAX
 		            function selectAuction(page, filter){
 		            	$.ajax({
-		            		url : 'products/' + page + '/' + filter + '/' + keyword,
-		            		type : 'get',
+		            		url : '/products/' + page + '/' + filter + '/' + keyword,
+		            		type : 'post',
 		            		success : result => {
 		                        const auctions = result.auctions;
 		                        const pageInfo = result.pageInfo;

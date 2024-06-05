@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,21 +28,24 @@ public class AuctionAjaxController {
 	
 	private final AuctionService auctionService;
 	
-	@GetMapping("/{page}/{filter}")
-	public String selectAuction(@PathVariable("page") int page, @PathVariable("filter") String filter, @PathVariable("keyword") String keyword) {
-		
-	      PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
-	      RowBounds rowBounds = new RowBounds(
-	            (pi.getCurrentPage() - 1) * pi.getBoardLimit(),
-	            pi.getBoardLimit()
+	@PostMapping("/{page}/{filter}/{keyword}")
+	public String selectAuction(@PathVariable("page") int page, 
+			                    @PathVariable("filter") String filter, 
+			                    @PathVariable("keyword") String keyword) {
+		System.out.println("keyword : " + keyword);
+	    PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
+	    RowBounds rowBounds = new RowBounds(
+	    	(pi.getCurrentPage() - 1) * pi.getBoardLimit(),
+	         pi.getBoardLimit()
 	            );
-	      // 리스트 조회
-	      List<Auction> auctions = auctionService.selectAuction(rowBounds, filter, keyword);
+	    
+	    // 리스트 조회
+	    List<Auction> auctions = auctionService.selectAuction(rowBounds, filter, keyword);
 	      
-	      // 응답데이터
-	      AuctionResponse response = new AuctionResponse();
-	      response.setAuctions(auctions);
-	      response.setPageInfo(pi);
+	    // 응답데이터
+	    AuctionResponse response = new AuctionResponse();
+	    response.setAuctions(auctions);
+	    response.setPageInfo(pi);
 	      
 		return new Gson().toJson(response);
 	}
