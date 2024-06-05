@@ -57,7 +57,6 @@ public class AuctionAjaxController {
 		HashMap<String, String> map = new HashMap();
 		map.put("filter", filter);
 		map.put("keyword", keyword);
-		System.out.println(map);
 		List<Auction> searchList = auctionService.searchAuction(map);
 		
 		// 응답
@@ -70,7 +69,6 @@ public class AuctionAjaxController {
 	
 	@GetMapping("/detail.auction/{auctionNo}")
 	public ModelAndView auctionDetail(@PathVariable int auctionNo, ModelAndView mv) {
-		System.out.println(auctionNo);
 		Auction auction = auctionService.auctionDetail(auctionNo);
 		if(auctionService.increaseCount(auctionNo) > 0 && auction != null) {
 			mv.addObject("auction", auction).setViewName("auction/detail");

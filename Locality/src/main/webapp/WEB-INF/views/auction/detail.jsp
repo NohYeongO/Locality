@@ -54,7 +54,7 @@
     .table{
         height: 100%;
     }
-    button{
+    #cart{
         width: 200px;
         height: 40px;
         border: none;
@@ -62,7 +62,7 @@
         background-color: skyblue;
     }
 
-    button:hover{
+    #cart:hover{
         color: hotpink;
         border: 1px solid hotpink;
     }
@@ -128,9 +128,16 @@
                         	<c:choose>
                         		<c:when test="${ loginUser.userNo ne auction.userNo }">
                         
+                        			<td>제시가</td>
+                        			<td><button onclick="minus">-</button></td>
+                        			<td>${ auction.bidPrice }</td>
+                        			<td><button onclick="plus">+</button></td>
+                        			<td><button onclick="inBid();">입찰하기</button></td>
+                        
+                        			<!-- 
 		                            <td>제시가</td>
 		                            <td><input type="number" name="bidPrice" id="bid" required></td>
-		                            <td><button onclick="inBid();">입찰하기</button></td>
+		                            <td><button onclick="inBid();">입찰하기</button></td> -->
                             	</c:when>
                             	<c:otherwise>
                             		<td><a href="delete.auction?auctionNo=${ auction.auctionNo }&userNo=${ loginUser.userNo }">삭제하기</a></td>
@@ -144,10 +151,15 @@
             
             <div>
                 
-                <button onclick="insertSave();">장바구니</button>
+                <button onclick="insertSave();" id="cart">장바구니</button>
             </div>
 
 			<script>
+				function minus(){
+					
+				}
+			
+			
 				function insertSave(){
 					
 					$.ajax({
