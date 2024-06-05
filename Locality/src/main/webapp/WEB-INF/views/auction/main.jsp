@@ -215,15 +215,11 @@
 		            	keyword = $('input[name=keyword]').val();
 	            		searchAuction(filter, keyword);
 	            		
-	            		
-	            		
 	            		function searchAuction(filter, keyword){
 	            			$.ajax({
 			            		url : 'products/' + filter + '/' + keyword,
 			            		type : 'post',
 			            		success : result => {
-			            			console.log(result);
-			            			
 			                        const searchList = result.searchList;
 			                        const keyword = result.keyword;
 			                        
@@ -259,7 +255,6 @@
             			resultStr = '';
             			filter = e.target.value;
             			let title = $('#pd_title');
-            			console.log(filter);
             			// AJAX filter 값 넣기
             			selectAuction(page, filter);
             			
