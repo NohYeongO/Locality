@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- CSS -->
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <!-- JS -->
  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <style>
@@ -154,6 +154,7 @@
     	background-color:black;
     }
     
+    
 
 </style>
 
@@ -169,11 +170,11 @@
 
     <div id="header">
         <div id="search">
-            <form action="search.do" method="get">
+            <!-- <form action="search.do" method="get"> -->
                 <input type="text" name="keyword" placeholder="상품명 입력" value="${ keyword }" required />
                 <input type="hidden" name="field"/>
                 <button type="submit">검색</button>
-            </form>
+            <!-- </form> -->
         </div>
     </div>
 
@@ -197,13 +198,23 @@
 		      <div class="refresh_btn"><img src="./resources/images/auction/more.png"></img></div>
 		      
             <script>
-	            let page = 1,filter = 'all', resultStr = '';
+	            let page = 1,filter = 'all', resultStr = '', keyword = '';
 	            $(() => {
 	            	selectAuction(page);
 	                $('.refresh_btn > img').click(() => {
 	                	selectAuction(++page, filter);
 	                });
 	             });
+	            
+	            $(() => {
+	            	$('#saerch . button').click(() => {
+		            	page = 1;
+		            	resultStr = '';
+		            	keyword = '';
+		            	selectAuction(page, keyword);
+	            		console.log('검색 버튼 클릭');
+	            	})
+	            })
 	            
 	            // 필터
             	$(() => {
@@ -238,7 +249,7 @@
 		            // 제품 리스트 AJAX
 		            function selectAuction(page, filter){
 		            	$.ajax({
-		            		url : 'products/' + page + '/' + filter,
+		            		url : 'products/' + page + '/' + filter + '/' + keyword,
 		            		type : 'get',
 		            		success : result => {
 		                        const auctions = result.auctions;
