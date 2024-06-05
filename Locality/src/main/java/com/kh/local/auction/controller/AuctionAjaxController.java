@@ -48,6 +48,7 @@ public class AuctionAjaxController {
 	    response.setPageInfo(pi);
 	      
 		return new Gson().toJson(response);
+		
 	}
 	
 	@PostMapping("/{filter}/{keyword}")
