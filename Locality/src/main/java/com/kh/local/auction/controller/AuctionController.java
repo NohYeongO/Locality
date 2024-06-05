@@ -53,22 +53,6 @@ public class AuctionController {
 		return "auction/main";
 	}
 	
-	
-	// 검색기능
-	@GetMapping("search.do")
-	public String selectSearchList(Model model, String keyword, String field) {
-		
-		HashMap<String, String> map = new HashMap();
-		map.put("field", field);
-		map.put("keyword", keyword);
-		List<Auction> searchList = auctionService.selectSearchList(map);
-		
-		model.addAttribute("list", searchList).addAttribute("keyword", keyword);
-		
-		return "auction/main";
-	}
-	
-	
 	// 상세페이지 이동
 	@GetMapping("detail.auction")
 	public ModelAndView auctionDetail(int auctionNo, ModelAndView mv) {

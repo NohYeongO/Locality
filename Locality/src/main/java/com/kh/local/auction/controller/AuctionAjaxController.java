@@ -2,6 +2,7 @@ package com.kh.local.auction.controller;
 
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.kh.local.auction.model.service.AuctionService;
 import com.kh.local.auction.model.vo.Auction;
 import com.kh.local.auction.model.vo.AuctionResponse;
+import com.kh.local.auction.model.vo.SearchResponse;
 import com.kh.local.common.model.vo.PageInfo;
 import com.kh.local.common.template.Pagination;
 
@@ -28,7 +30,7 @@ public class AuctionAjaxController {
 	
 	private final AuctionService auctionService;
 	
-	@PostMapping("/{page}/{filter}")
+	@GetMapping("/{page}/{filter}")
 	public String selectAuction(@PathVariable("page") int page, 
 			                    @PathVariable("filter") String filter) {
         
@@ -40,11 +42,29 @@ public class AuctionAjaxController {
 	    // 리스트 조회
 	    List<Auction> auctions = auctionService.selectAuction(rowBounds, filter);
 	      
-	    // 응답데이터
+	    // 응답
 	    AuctionResponse response = new AuctionResponse();
 	    response.setAuctions(auctions);
 	    response.setPageInfo(pi);
 	      
+		return new Gson().toJson(response);
+	}
+	
+	@PostMapping("/{filter}/{keyword}")
+	public String searchAuction(@PathVariable("filter") String filter,
+			                    @PathVariable("keyword") String keyword) {
+		
+		HashMap<String, String> map = new HashMap();
+		map.put("filter", filter);
+		map.put("keyword", keyword);
+		System.out.println(map);
+		List<Auction> searchList = auctionService.searchAuction(map);
+		
+		// 응답
+		SearchResponse response = new SearchResponse();
+		response.setSearchList(searchList);
+		response.setKeyword(keyword);
+		
 		return new Gson().toJson(response);
 	}
 	
