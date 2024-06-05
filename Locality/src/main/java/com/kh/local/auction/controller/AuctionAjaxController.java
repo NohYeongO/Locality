@@ -28,19 +28,17 @@ public class AuctionAjaxController {
 	
 	private final AuctionService auctionService;
 	
-	@PostMapping("/{page}/{filter}/{keyword}")
+	@PostMapping("/{page}/{filter}")
 	public String selectAuction(@PathVariable("page") int page, 
-			                    @PathVariable("filter") String filter, 
-			                    @PathVariable("keyword") String keyword) {
-		System.out.println("keyword : " + keyword);
+			                    @PathVariable("filter") String filter) {
+        
 	    PageInfo pi = Pagination.getPageInfo(auctionService.selectListCount(), page, 8, 10);
 	    RowBounds rowBounds = new RowBounds(
 	    	(pi.getCurrentPage() - 1) * pi.getBoardLimit(),
-	         pi.getBoardLimit()
-	            );
+	         pi.getBoardLimit());
 	    
 	    // 리스트 조회
-	    List<Auction> auctions = auctionService.selectAuction(rowBounds, filter, keyword);
+	    List<Auction> auctions = auctionService.selectAuction(rowBounds, filter);
 	      
 	    // 응답데이터
 	    AuctionResponse response = new AuctionResponse();

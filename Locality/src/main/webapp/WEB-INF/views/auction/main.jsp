@@ -196,7 +196,9 @@
 		      <div class="refresh_btn"><img src="./resources/images/auction/more.png"></img></div>
 		      
             <script>
+
 	            let page = 1, filter = 'all', resultStr = '', keyword = '';
+	            console.log('AJAX 요청 URL:', '/local/products/' + page + '/' + filter + '/' + keyword);
 	            $(() => {
 	            	// 기본적으로 리스트 뿌려주기
 	            	selectAuction(page, filter, keyword);
@@ -209,11 +211,17 @@
 	            $(() => {
 	            	// 검색 버튼 클릭 시
 	            	$('#search > button').click(() => {
-		            	page = 1;
+	            		
+	            		function searchAuction(keyword)
+	            		
+	            		$('.duct_wrap').html(1);
+	            		/*
+	            		page = 1;
 		            	resultStr = '';
 		            	keyword = $('input[name=keyword]').val();
 		            	selectAuction(page, filter, keyword);
 		            	console.log('검색 버튼 클릭, 값 :  ' + keyword);
+		            	*/
 	            	})
 	            })
 	            
@@ -277,6 +285,7 @@
 		            		},
 		            		error : result => {
 		            			console.log('AJAX 실패');
+		            			console.log(keyword);
 		            		}
 		            	})
 		            }

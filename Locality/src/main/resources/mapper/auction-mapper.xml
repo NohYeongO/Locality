@@ -49,7 +49,7 @@
 	</sql>
 	
 	<!-- 상품 리스트 조회 -->
-	<select id="selectAuction" resultMap="auctionResultSet" parameterType="string">
+	<select id="selectAuction" resultMap="auctionResultSet">
 	   SELECT
 		       <include refid="selectList" />
 		 FROM
@@ -60,9 +60,6 @@
 		       TB_AUC_RECORD USING(AUCTION_NO)
 	    WHERE
 	           PD_STATUS = 'Y'
-	      AND
-	           PD_NAME
-	     LIKE '%' || #{keyword} || '%'
 	    ORDER
 	       BY
          	<choose>
